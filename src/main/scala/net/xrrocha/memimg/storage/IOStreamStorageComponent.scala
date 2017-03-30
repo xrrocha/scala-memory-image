@@ -2,14 +2,14 @@ package net.xrrocha.memimg.storage
 
 import java.io._
 
-import scala.util.Try
+trait IOStreamStorage extends StorageComponent {
 
-trait IOStream {
-  def in: InputStream
-  def out: OutputStream
+  val in: InputStream
+  val out: OutputStream
+
 }
 
-trait FileIOStream extends IOStream {
+trait FileStorageComponent extends StorageComponent {
 
   def file: File
 

@@ -1,6 +1,6 @@
 package net.xrrocha.memimg
 
-import net.xrrocha.memimg.storage.ObjectStreamStorage
+import net.xrrocha.memimg.storage.{FileIOStream, ObjectStreamStorageComponent}
 
 object SerializedMemoryImageTest extends MemoryImageTest {
 
@@ -8,6 +8,6 @@ object SerializedMemoryImageTest extends MemoryImageTest {
 
   def buildBank(): TestBank =
     new TestBank
-      with ObjectStreamStorage
+      with ObjectStreamStorageComponent
 
 }

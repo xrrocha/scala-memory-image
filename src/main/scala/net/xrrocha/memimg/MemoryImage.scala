@@ -1,6 +1,6 @@
 package net.xrrocha.memimg
 
-import net.xrrocha.memimg.storage.Storage
+import net.xrrocha.memimg.storage.StorageComponent
 
 trait Transaction[S, A] {
   def executeOn(system: S): A
@@ -11,19 +11,20 @@ trait Query[S, A] {
 }
 
 trait MemoryImage[S] {
-  this: Storage =>
+
+  this: StorageComponent =>
 
   def newSystem: S
 
   val transactions: Iterator[Transaction[S, _]] =
-    Iterator.continually(read()).
+    Iterator.continually(storage.read()).
       takeWhile(_.isDefined).
       map(_.get.asInstanceOf[Transaction[S, _]])
 
   val system: S = {
 
     val snapshot: S =
-      read().
+      storage.read().
         map(_.asInstanceOf[S]).
         getOrElse(newSystem)
 
@@ -32,14 +33,18 @@ trait MemoryImage[S] {
     snapshot
   }
 
-  write(system)
+  storage.write(system)
 
   def executeTransaction[A](transaction: Transaction[S, A]): A = synchronized {
-    write(transaction)
+    storage.write(transaction)
     transaction.executeOn(system)
   }
 
   def executeQuery[A](query: Query[S, A]): A = synchronized {
     query.queryOn(system)
+  }
+
+  def close(): Unit = {
+    // TODO
   }
 }

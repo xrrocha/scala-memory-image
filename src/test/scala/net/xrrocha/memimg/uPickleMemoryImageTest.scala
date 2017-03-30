@@ -1,7 +1,7 @@
 package net.xrrocha.memimg
 
-import net.xrrocha.memimg.storage.json.JsonLineFormat
-import net.xrrocha.memimg.storage.{FileStreamIO, LineStreamStorage}
+import net.xrrocha.memimg.storage.LineStreamStorageComponent
+import net.xrrocha.memimg.storage.json.JsonLineFormatComponent
 
 object uPickleMemoryImageTest extends MemoryImageTest {
 
@@ -9,9 +9,9 @@ object uPickleMemoryImageTest extends MemoryImageTest {
 
   def buildBank(): TestBank =
     new TestBank
-      with LineStreamStorage with JsonLineFormat {
+      with LineStreamStorageComponent with JsonLineFormatComponent {
 
-      lazy val converters =
+      lazy val jsonConverters =
         Seq(Bank, CreateAccount, RemoveAccount, Deposit, Withdraw, Transfer)
     }
 }

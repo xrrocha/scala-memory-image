@@ -2,7 +2,7 @@ package net.xrrocha.memimg
 
 import java.io.File
 
-import net.xrrocha.memimg.storage.{FileStreamIO, Storage}
+import net.xrrocha.memimg.storage.{FileIOStream, StorageComponent}
 import utest._
 import utest.framework.{Test, Tree}
 
@@ -23,8 +23,9 @@ trait MemoryImageTest extends TestSuite {
     file
   }
 
-  trait TestBank extends MemoryImage[Bank] with FileStreamIO {
-    this: Storage =>
+  trait TestBank extends MemoryImage[Bank] with FileIOStream {
+
+    this: StorageComponent  =>
 
     def newSystem: Bank = Bank(nextId())
 
